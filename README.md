@@ -8,4 +8,4 @@ A good description of the issues that needed a fix is here: http://weiv.co/strea
 Another clone of DarwiinRemote that works on OS X 10.8 can be found here: http://www.matthiaskronlachner.com/?p=1574
 
 
-This software is distributed under the 3-caluse BSD license (see COPYRIGHT.txt).
+This software is distributed under the 3-clause BSD license (see COPYRIGHT.txt).
