@@ -56,6 +56,7 @@
     if necessary.)
  */
 
+/*
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
 
     if (persistentStoreCoordinator != nil) {
@@ -79,6 +80,62 @@
         [[NSApplication sharedApplication] presentError:error];
     }    
 
+    return persistentStoreCoordinator;
+}
+
+*/
+
+/* maxi replaced from: 
+ http://stackoverflow.com/questions/5572954/error-after-adding-a-new-core-data-model-version
+ to avoid the store version error.
+ */
+
+- (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
+    if (persistentStoreCoordinator) return persistentStoreCoordinator;
+    NSManagedObjectModel *mom = [self managedObjectModel];
+    if (!mom) {
+        NSAssert(NO, @"Managed object model is nil");
+        NSLog(@"%@:%s No model to generate a store from", [self class],
+              sel_getName(_cmd));
+        return nil;
+    }
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *applicationSupportFolder = [self applicationSupportFolder];
+    NSError *error = nil;
+    if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
+        if (![fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:NO attributes:nil error:&error]) {
+            NSAssert(NO, ([NSString stringWithFormat:@"Failed to create App Support directory %@ : %@", applicationSupportFolder,error]));
+            NSLog(@"Error creating application support directory at %@ : %@",applicationSupportFolder,error);
+            return nil;
+        }
+    }
+    NSURL *url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"storedata"]];
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: mom];
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
+                                                  configuration:nil
+                                                            URL:url
+                                                        options:nil
+                                                          error:&error]){
+        // EDIT: if error opening persistent store, remove it and create a new one
+        if([[error domain] isEqualToString:@"NSCocoaErrorDomain"] && [error code] == 134100) {
+            NSLog(@"Core Data model was updated.  Deleting old persistent store.");
+            [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
+            if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
+                                                          configuration:nil
+                                                                    URL:url
+                                                                options:nil
+                                                                  error:&error]){
+                [[NSApplication sharedApplication] presentError:error];
+                [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
+                return nil;
+            }
+        } else {
+            [[NSApplication sharedApplication] presentError:error];
+            [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
+            return nil;
+        }
+        //
+    }    
     return persistentStoreCoordinator;
 }
 

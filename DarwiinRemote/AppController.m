@@ -4,7 +4,7 @@
 /* XXX: Convert proof of concept implementations to actual GUI friendy options*/
 //#define BALANCEBOARD_TO_KEYS 1
 //#define NUNCHUK_TO_KEYS 1
-//#define WIIREMOTE_MOTION_TO_KEYS 1
+#define WIIREMOTE_MOTION_TO_KEYS 1
 
 
 @implementation AppController

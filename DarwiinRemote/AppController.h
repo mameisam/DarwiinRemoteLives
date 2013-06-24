@@ -50,7 +50,8 @@
 	IBOutlet NSButton* homeButton;
 	IBOutlet NSButton* oneButton;
 	IBOutlet NSButton* twoButton;
-	
+    IBOutlet NSButton* xpmButton;
+
 	IBOutlet NSPopUpButton* mouseMode;
 	
 	IBOutlet NSView* nunchukView;
