@@ -1419,12 +1419,12 @@ static CGKeyCode GTMKeyCodeForCharCode(CGCharCode charCode) {
 	if (ay < (deadLevel * -1)) {
 		if (!upActive && (secondsElapsedAY > secondLevel)) {
 			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:YES];
-			upActive = TRUE;
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:YES];                    upActive = TRUE;    
 		}
 	} else if (ay > deadLevel) {
 		if (!downActive && (secondsElapsedAY > secondLevel)) {
 			[self sendKeyboardEvent:GTMKeyCodeForCharCode('f') keyDown:YES];
-			downActive = TRUE;
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:YES];                 downActive = TRUE;
 		}
 	} else {
 		[reftimeAY release];
