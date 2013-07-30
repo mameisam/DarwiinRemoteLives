@@ -1423,7 +1423,7 @@ static CGKeyCode GTMKeyCodeForCharCode(CGCharCode charCode) {
 		}
 	} else if (ay > deadLevel) {
 		if (!downActive && (secondsElapsedAY > secondLevel)) {
-			[self sendKeyboardEvent:GTMKeyCodeForCharCode('f') keyDown:YES];
+			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:YES];
             [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:YES];                 downActive = TRUE;
 		}
 	} else {
@@ -1431,10 +1431,12 @@ static CGKeyCode GTMKeyCodeForCharCode(CGCharCode charCode) {
 		reftimeAY = [[NSDate date] retain];
 		if (upActive) {
 			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:NO];
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:NO];
 			upActive = FALSE;
 		}
 		if (downActive) {
-			[self sendKeyboardEvent:GTMKeyCodeForCharCode('f') keyDown:NO];
+			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:NO];
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:NO];
 			downActive = FALSE;
 		}		
 	}
@@ -1442,23 +1444,27 @@ static CGKeyCode GTMKeyCodeForCharCode(CGCharCode charCode) {
 	/* turnLeftActive < -0.5 < neutral < 0.5 < turnRightActive */
 	if (ax < (deadLevel * -1)) {
 		if (!turnLeftActive && (secondsElapsedAX > secondLevel)) {
-			[self sendKeyboardEvent:GTMKeyCodeForCharCode('a') keyDown:YES];
+			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:YES];
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:YES];
 			turnLeftActive = TRUE;
 		}
 	} else if (ax > deadLevel) {
 		if (!turnRightActive && (secondsElapsedAX > secondLevel)) {
-			[self sendKeyboardEvent:GTMKeyCodeForCharCode('d') keyDown:YES];
+			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:YES];
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:YES];
 			turnRightActive = TRUE;
 		}
 	} else {
 		[reftimeAX release];
 		reftimeAX = [[NSDate date] retain];
 		if (turnLeftActive) {
-			[self sendKeyboardEvent:GTMKeyCodeForCharCode('a') keyDown:NO];
+			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:NO];
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:NO];
 			turnLeftActive = FALSE;
 		}
 		if (turnRightActive) {
-			[self sendKeyboardEvent:GTMKeyCodeForCharCode('d') keyDown:NO];
+			[self sendKeyboardEvent:GTMKeyCodeForCharCode('r') keyDown:NO];
+            [self sendKeyboardEvent:GTMKeyCodeForCharCode('\n') keyDown:NO];
 			turnRightActive = FALSE;
 		}		
 	}
